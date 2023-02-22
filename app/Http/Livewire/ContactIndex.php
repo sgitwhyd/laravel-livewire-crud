@@ -9,15 +9,17 @@ use Livewire\WithPagination;
 class ContactIndex extends Component
 {
     use WithPagination;
-    protected $paginationTheme = 'bootstrap';
+
+
     public $paginate = 5;
     public $search;
-    protected $contacts;
-
     public $updateStatus = false;
-    protected $listeners = ['contactStored' => '$refresh',
-    'contactHasBeenUpdated' => '$refresh'
-];
+
+
+    protected $paginationTheme = 'bootstrap';
+    protected $listeners =
+    ['contactStored' => '$refresh',
+    'contactHasBeenUpdated' => '$refresh' ];
 
 
     public function destroy($id)
@@ -44,18 +46,22 @@ class ContactIndex extends Component
             $this->emit('getContact', $contact);
         }
 
+        public function updatingsearch()
+        {
+            $this->resetPage();
+        }
+
 
 
         public function render()
         {
-            $this->contacts = Contact::latest();
+            $searchedContacts = Contact::where('name', 'like', '%' . $this->search . '%')->paginate($this->paginate);
+
+           
+
             return view('livewire.contact-index', [
-                'contacts' => $this->search === null ? $this->contacts->paginate($this->paginate) : $this->contacts->where(
-                    'name',
-                    'like',
-                    '%' .
-                    $this->search . '%'
-                )->paginate($this->paginate)
+                'contacts' =>   $this->search === null ? Contact::paginate($this->paginate) : $searchedContacts
+
             ]);
         }
 }

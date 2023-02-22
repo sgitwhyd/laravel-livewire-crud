@@ -40,10 +40,11 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($contacts as $contact)
+
+                @foreach($contacts as $index => $contact)
                 <tr>
                     <th scope="row">
-                        {{ $loop->iteration }}
+                        {{ $contacts->firstItem() + $index }}
                     </th>
                     <td>
                         {{ $contact->name }}

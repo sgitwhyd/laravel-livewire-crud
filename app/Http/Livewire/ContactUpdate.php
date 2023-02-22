@@ -8,8 +8,8 @@ use Livewire\Component;
 class ContactUpdate extends Component
 {
     public $name;
-    public $phone;
     public $contactId;
+    public $phone;
 
     protected $listeners = [
         'getContact' => 'showContact'
